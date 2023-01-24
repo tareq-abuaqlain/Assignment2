@@ -14,7 +14,7 @@ const signupIndividualValidation = object().shape({
   birthday: string(),
   gender: string(),
   address: string().required(),
-  role: string().required(),
+  company_name: string(),
 
 });
 

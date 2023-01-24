@@ -12,7 +12,8 @@ CREATE TABLE users(
     birthday VARCHAR(255) NOT NULL,
     gender VARCHAR(255) NOT NULL ,
     address VARCHAR(255) NOT NULL ,
-    role VARCHAR(255) NOT NULL 
+    role VARCHAR(255) NOT NULL ,
+    company_name VARCHAR(255) NOT NULL
 );
 
 COMMIT ;

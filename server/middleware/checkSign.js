@@ -10,7 +10,7 @@ const checkSign = (req, res, next) => {
       res.status(401).json({ error: 'Unauthorized' });
     } else {
       const { id } = verifyToken(token, SECRET_KEY);
-      console.log('id: ', id);
+      req.userId = id;
       next();
     }
   } catch (error) {

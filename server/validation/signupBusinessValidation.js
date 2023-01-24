@@ -1,8 +1,10 @@
 const { object, string } = require('yup');
 
 const signupBusinessValidation = object().shape({
-  first_name: string().required(),
-  last_name: string().required(),
+  first_name: string().required()
+    .matches(/^[A-Z]/, 'First name in business account must start with a capital letter'),
+  last_name: string().required()
+    .matches(/^[A-Z]/, 'Last name in business account must start with a capital letter'),
   email: string().email().required(),
   password: string().required()
     .min(8, 'Password must be at least 8 characters')
@@ -14,7 +16,7 @@ const signupBusinessValidation = object().shape({
   birthday: string(),
   gender: string(),
   address: string().required(),
-  role: string().required(),
+  company_name: string().required(),
 
 });
 
