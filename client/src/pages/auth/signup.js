@@ -22,17 +22,7 @@ const { Title } = Typography;
 
 const App = () => {
     const [role, setRole] = React.useState('Individual');
-    const [isFormValid, setIsFormValid] = React.useState(false);
     const formRef = React.useRef(null);
-    // const handleSubmit = () => {
-    //     formRef.current.validateFields().then((values) => {
-    //         setState({ isFormValid: true });
-    //         // submit the form
-    //     }).catch((info) => {
-    //         setState({ isFormValid: false });
-    //     });
-    // };
-
     const onGenderChange = (value) => {
         switch (value) {
             case 'male':
@@ -60,7 +50,6 @@ const App = () => {
             setRole('Individual');
         } else if (email.includes('@company.com')) {
             setRole('Business');
-            // const response = await axios.post('/api/v1/signup', {
         };
     }
     const onChangeBirthday = (value) => {
@@ -289,7 +278,7 @@ const App = () => {
                                 {
                                     required: true,
                                     whitespace: true,
-
+                                    message: 'Please input a valid Company Name',
                                 },
                             ]}
                         >
