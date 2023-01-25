@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.ant-form-item-label {
+  line-height: 3.571429;
+}
+
+.ant-form-item-control  {
+  display: flex;
+  justify-content: center;
+}

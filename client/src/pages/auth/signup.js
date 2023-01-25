@@ -1,7 +1,8 @@
-import { Button, Form, Input, message, Select } from 'antd';
+import { Typography, Button, Form, Input, message, Select } from 'antd';
 import React from 'react';
 import axios from 'axios';
 import { FirstNameBusinessSchema, LastNameBusinessSchema } from '../../validation/index.js';
+import Layout, { Header } from 'antd/es/layout/layout.js';
 const { Option } = Select;
 const layout = {
     labelCol: {
@@ -17,10 +18,11 @@ const tailLayout = {
         span: 16,
     },
 };
+const { Title } = Typography;
 
 const App = () => {
     const [role, setRole] = React.useState('Individual');
-    const [state, setState] = React.useState(true);
+    const [isFormValid, setIsFormValid] = React.useState(false);
     const formRef = React.useRef(null);
     // const handleSubmit = () => {
     //     formRef.current.validateFields().then((values) => {
@@ -76,7 +78,7 @@ const App = () => {
     const onFinish = async (values) => {
         try {
             const res = await axios.post('/api/v1/signup', values);
-            if(res.status === 200) {
+            if (res.status === 200) {
                 message.success('Sign up successfully');
             }
         } catch (error) {
@@ -87,214 +89,237 @@ const App = () => {
         formRef.current?.resetFields();
     };
     return (
+        <Layout>
+            <Header>
+                <Title level={2} style={{ color: '#fff', display: 'flex', marginTop: '13px', justifyContent: 'center' }}>Sign Up</Title>
+            </Header>
 
-        <Form
-            {...layout}
-            ref={formRef}
-            name="control-ref"
-            onFinish={onFinish}
-            style={{
-                maxWidth: 600,
-            }}
-        // isValid={handleSubmit}
-        >
-            <Form.Item
-                name="email"
-                label="Email"
-                hasFeedback
-                rules={[
-                    {
-                        required: true,
-                        type: 'email',
-                        whitespace: true,
-                        message: 'Please input a valid email address',
-                    },
-                ]}
+            <Form
+                {...layout}
+                ref={formRef}
+                name="control-ref"
+                onFinish={onFinish}
+                style={{
+                    maxWidth: '1200px',
+                    marginTop: '40px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    height: '100vh',
+                }}
             >
-                <Input onChange={onChangeEmail} />
-            </Form.Item>
-            <Form.Item
-                name="first_name"
-                label="First Name"
-                hasFeedback
-                rules={role === 'Business' ? FirstNameBusinessSchema :
-                    [{
-                        required: true,
-                        type: 'string',
-                        whitespace: true,
-                        message: 'Please input a valid First name',
-                    }
-                    ]}
-            >
-                <Input />
-            </Form.Item>
-
-            <Form.Item
-                name="last_name"
-                label="Last Name"
-                hasFeedback
-                rules={role === 'Business' ? LastNameBusinessSchema :
-                    [{
-                        required: true,
-                        type: 'string',
-                        whitespace: true,
-                        message: 'Please input a valid First name',
-                    }
-                    ]}
-            >
-                <Input />
-            </Form.Item>
-
-
-            <Form.Item
-                name="password"
-                label="Password"
-                hasFeedback
-                rules={[
-                    {
-                        required: true,
-                        type: 'string',
-                        pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-                        message: 'At least 8 char and have one of (number, special char, upper case)',
-                        whitespace: true
-                    },
-                ]}
-            >
-                <Input
-                    placeholder="At least 8 char and have one of (number, special char, upper case)"
-                    type='password'
-                />
-            </Form.Item>
-
-            <Form.Item
-                name="confirm_password"
-                label="Confirm Password"
-                hasFeedback
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please confirm your password!',
-                    },
-                    ({ getFieldValue }) => ({
-                        validator(_, value) {
-                            if (!value || getFieldValue('password') === value) {
-                                return Promise.resolve();
-                            }
-                            return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                        },
-                    }),
-                ]}
-            >
-                <Input
-                    type='password'
-                />
-            </Form.Item>
-
-            <Form.Item
-                name="phone_number"
-                label="Phone Number"
-                hasFeedback
-                rules={[
-                    {
-                        required: true,
-                        whitespace: true,
-                        message: 'Please input a valid Phone number',
-                    },
-                ]}
-            >
-                <Input />
-            </Form.Item>
-
-
-            <Form.Item
-                name="birthday"
-                label="Birthday"
-                hasFeedback
-                rules={
-                    [
-                        {
-                            message: 'Please input a valid Birthday',
-                        }, () => ({
-                            validator(_, value) {
-                                const isValid = onChangeBirthday(value);
-                                if (!value || isValid) {
-                                    return Promise.resolve();
-                                }
-                                return Promise.reject(new Error('You must be 18 years old to register'));
+                <Layout>
+                    <Form.Item
+                        name="email"
+                        label="Email"
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                type: 'email',
+                                whitespace: true,
+                                message: 'Please input a valid email address',
                             },
-                        })]
-                }
+                        ]}
+                    >
+                        <Input onChange={onChangeEmail} />
+                    </Form.Item>
+                    <Form.Item
+                        name="first_name"
+                        label="First Name"
+                        hasFeedback
+                        rules={role === 'Business' ? FirstNameBusinessSchema :
+                            [{
+                                required: true,
+                                type: 'string',
+                                whitespace: true,
+                                message: 'Please input a valid First name',
+                            }
+                            ]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-            >
-                <Input
-                    type='date'
-                    placeholder="Birthday must be at this pattern: YYYY-MM-DD"
-                />
-            </Form.Item>
-            <Form.Item
-                name="gender"
-                label="Gender"
-                hasFeedback
-                rules={[
+                    <Form.Item
+                        name="last_name"
+                        label="Last Name"
+                        hasFeedback
+                        rules={role === 'Business' ? LastNameBusinessSchema :
+                            [{
+                                required: true,
+                                type: 'string',
+                                whitespace: true,
+                                message: 'Please input a valid First name',
+                            }
+                            ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+
+                    <Form.Item
+                        name="password"
+                        label="Password"
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                type: 'string',
+                                pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                                message: 'At least 8 char and have one of (number, special char, upper case)',
+                                whitespace: true
+                            },
+                        ]}
+                    >
+                        <Input
+                            placeholder="At least 8 char and have one of (number, special char, upper case)"
+                            type='password'
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="confirm_password"
+                        label="Confirm Password"
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please confirm your password!',
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input
+                            type='password'
+                        />
+                    </Form.Item>
+                </Layout>
+                <Layout>
+
+                    <Form.Item
+                        name="phone_number"
+                        label="Phone Number"
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                whitespace: true,
+                                message: 'Please input a valid Phone number',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="birthday"
+                        label="Birthday"
+                        hasFeedback
+                        rules={
+                            [
+                                {
+                                    message: 'Please input a valid Birthday',
+                                }, () => ({
+                                    validator(_, value) {
+                                        const isValid = onChangeBirthday(value);
+                                        if (!value || isValid) {
+                                            return Promise.resolve();
+                                        }
+                                        return Promise.reject(new Error('You must be 18 years old to register'));
+                                    },
+                                })]
+                        }
+
+                    >
+                        <Input
+                            type='date'
+                            placeholder="Birthday must be at this pattern: YYYY-MM-DD"
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="gender"
+                        label="Gender"
+                        hasFeedback
+                        rules={[
+                            {
+                                required: false,
+                                whitespace: true,
+                            },
+                        ]}
+                    >
+                        <Select
+                            placeholder="Select a option and change input text above"
+                            onChange={onGenderChange}
+                            allowClear
+                        >
+                            <Option value="male">male</Option>
+                            <Option value="female">female</Option>
+                            <Option value="other">other</Option>
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="address"
+                        label="Address"
+                        hasFeedback
+                        rules={[
+                            {
+                                required: true,
+                                whitespace: true,
+                                message: 'Please input a valid Address',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
                     {
-                        required: false,
-                        whitespace: true,
-                    },
-                ]}
-            >
-                <Select
-                    placeholder="Select a option and change input text above"
-                    onChange={onGenderChange}
-                    allowClear
-                >
-                    <Option value="male">male</Option>
-                    <Option value="female">female</Option>
-                    <Option value="other">other</Option>
-                </Select>
-            </Form.Item>
+                        role === 'Business' && <Form.Item
+                            name="company_name"
+                            label="Company Name"
+                            hasFeedback
+                            rules={[
+                                {
+                                    required: true,
+                                    whitespace: true,
 
-            <Form.Item
-                name="address"
-                label="Address"
-                hasFeedback
-                rules={[
-                    {
-                        required: true,
-                        whitespace: true,
-                        message: 'Please input a valid Address',
-                    },
-                ]}
-            >
-                <Input />
-            </Form.Item>
+                                },
+                            ]}
+                        >
+                            <Input
+                                placeholder='Just for business account'
+                            />
+                        </Form.Item>
+                    }
+                    <Form.Item
+                        {...tailLayout}>
+                        <Layout
+                            style={{
+                                marginTop: '10px',
+                                display: 'flex',
+                                flexDirection: 'row',
+                            }}
+                        >
+                            <Button type="primary" htmlType="submit" style={{ marginRight: '15px' }}>
+                                Submit
+                            </Button>
+                            <Button htmlType="button" onClick={onReset}>
+                                Reset
+                            </Button>
+                        </Layout>
+                    </Form.Item>
+                </Layout>
 
-            {
-                role === 'Business' && <Form.Item
-                    name="company_name"
-                    label="Company Name"
-                    hasFeedback
-                    rules={[
-                        {
-                            required: true,
-                            whitespace: true,
+            </Form >
+        </Layout>
 
-                        },
-                    ]}
-                >
-                    <Input
-                        placeholder='Just for business account'
-                    />
-                </Form.Item>
-            }
-            <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
-                <Button htmlType="button" onClick={onReset}>
-                    Reset
-                </Button>
-            </Form.Item>
-        </Form >
     );
 };
 export default App;
