@@ -9,11 +9,11 @@ CREATE TABLE users(
     email VARCHAR(255) NOT NULL ,
     password VARCHAR(255) NOT NULL ,
     phone_number VARCHAR(255) NOT NULL ,
-    birthday VARCHAR(255) NOT NULL,
-    gender VARCHAR(255) NOT NULL ,
+    birthday VARCHAR(255) DEFAULT NULL,
+    gender VARCHAR(255) DEFAULT NULL,
     address VARCHAR(255) NOT NULL ,
     role VARCHAR(255) NOT NULL ,
-    company_name VARCHAR(255) NOT NULL
+    company_name VARCHAR(255) DEFAULT NULL
 );
 
 COMMIT ;

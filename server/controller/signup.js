@@ -5,14 +5,15 @@ const { setCookie } = require('../server_side_logic');
 const { getUserByEmail, insertUser } = require('../database/query');
 
 const signupController = async (req, res) => {
-  const {
-    first_name, last_name, email, password, confirm_password, phone_number, birthday, gender, address, company_name,
-  } = req.body;
-
   try {
+    const {
+      first_name, last_name, email, password, confirm_password, phone_number, birthday, gender, address, company_name,
+    } = req.body;
+    console.log('req.body: ', req.body);
+
     const checkAge = (theBirthday) => {
       const pattern = /^\d{4}-\d{2}-\d{2}$/;
-      if (!pattern.test(theBirthday)) {
+      if (theBirthday && !pattern.test(theBirthday)) {
         throw new CustomError(400, 'Birthday must be in this format: YYYY-MM-DD Like 2000-01-01');
       }
       const birthDate = new Date(theBirthday);
@@ -26,7 +27,7 @@ const signupController = async (req, res) => {
     checkAge(birthday);
 
     const genderArr = ['male', 'female', 'other'];
-    if (!genderArr.includes(gender)) {
+    if (gender && !genderArr.includes(gender)) {
       throw new CustomError(400, 'Gender should be one of these : male , female , other');
     }
 
