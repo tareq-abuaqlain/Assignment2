@@ -24,6 +24,6 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).json(err.message);
 });
 
-app.set('port', process.env.PORT || 8000);
+app.set('port', process.env.PORT || 8080);
 
 module.exports = app;

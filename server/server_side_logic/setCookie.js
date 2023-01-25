@@ -6,13 +6,13 @@ const setCookie = async (req, res, id) => {
   try {
     const { env: { SECRET_KEY } } = process;
     const token = await signToken(id, SECRET_KEY);
-    res.cookie('token', token, {
+    return res.cookie('token', token, {
       maxAge: 300000000,
       httpOnly: true,
       sameSite: true,
     }).status(200).json({ message: 'Signup successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
