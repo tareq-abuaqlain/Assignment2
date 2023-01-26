@@ -2,9 +2,13 @@
 Web application that allows users to create a new account.
 
 ## Database
-[Database Link](https://drawsql.app/teams/tareq-g12/diagrams/assignment2)
+<p>
+<a href='https://drawsql.app/teams/tareq-g12/diagrams/assignment2'>Database Link</a>
+</p>
+<img src='https://i.ibb.co/nr0Gw9q/db.png'>
 
-## :pushpin: **How to Launch App Locally** :- 
+
+## **How to Launch App Locally** :pushpin:
 
 *  clone this repo by typing this command in the terminal:  
 `git clone https://github.com/tareq-abuaqlain/Assignment1.git`
